@@ -8,10 +8,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import HelloWorld from "./components/HelloWorld.vue";
+import PunGenerator from "./components/PunGenerator.vue";
 
 @Component({
   components: {
-    HelloWorld
+    HelloWorld,
+    PunGenerator
   }
 })
 export default class App extends Vue {}
