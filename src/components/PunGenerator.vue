@@ -1,8 +1,10 @@
 <template>
   <div>
     <h1>Random Pun Generator</h1>
-    <span class="pun">{{ pun }}</span
-    ><br />
+    <span class="pun" id="selectedPun" type="text">{{ pun }}</span>
+
+    <button class="copy-button" v-on:click="copyPun">Copy</button>
+    <br />
     <button class="random-button" onclick="randomPun()">Randomize</button>
   </div>
 </template>
@@ -20,9 +22,30 @@ export default class PunGenerator extends Vue {
     "Two windmills are standing in a wind farm. One asks, “What’s your favorite kind of music?” The other says, “I’m a big metal fan.”"
   ];
   public pun = this.puns[Math.floor(Math.random() * this.puns.length)];
-  randomPun = function() {
-    // TODO: Add puns
-  };
+  copy = new Vue({
+    data: {
+      el: "#selectedPun",
+      message: ""
+      // copyText: document.getElementById("selectedPun")?.innerHTML,
+    },
+    methods: {
+      randomPun: function() {
+        // TODO: Add puns
+      },
+      copyPun: function() {
+        if (this.el) {
+          const inputCopy = document.createElement("input");
+          inputCopy.value = this.el;
+          document.body.appendChild(inputCopy);
+          inputCopy.select();
+          inputCopy.setSelectionRange(0, 99999); // mobile
+          document.execCommand("copy");
+          document.body.removeChild(inputCopy);
+          console.log(inputCopy);
+        }
+      }
+    }
+  });
 }
 </script>
 
