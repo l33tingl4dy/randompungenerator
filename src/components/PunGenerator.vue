@@ -5,7 +5,7 @@
 
     <button class="copy-button" v-on:click="copyPun">Copy</button>
     <br />
-    <button class="random-button" onclick="randomPun()">Randomize</button>
+    <button class="random-button" v-on:click="getJoke">Randomize</button>
   </div>
 </template>
 
@@ -43,6 +43,52 @@ export default class PunGenerator extends Vue {
           document.body.removeChild(inputCopy);
           console.log(inputCopy);
         }
+      }
+    }
+  });
+
+  // JokeAPI
+  joke = new Vue({
+    data: {
+      baseUrl: "https://sv443.net/jokeapi/v2",
+      categories: [
+        "Programming",
+        "Miscellaneous",
+        "Pun",
+        "Spooky",
+        "Christmas"
+      ],
+      params: ["blacklistFlags=nsfw,religious,racist", "idRange=0-100"],
+      xhr: new XMLHttpRequest()
+    },
+    methods: {
+      getJoke: function() {
+        this.xhr.open(
+          "GET",
+          this.baseUrl +
+            "/joke/" +
+            this.categories.join(",") +
+            "?" +
+            this.params.join("&")
+        );
+        this.xhr.onreadystatechange;
+        if (this.xhr.readyState == 4 && this.xhr.status < 300) {
+          const randomJoke = JSON.parse(this.xhr.responseText);
+          if (randomJoke.type == "single") {
+            alert(randomJoke.joke);
+          } else {
+            alert(randomJoke.setup);
+            alert(randomJoke.delivery);
+          }
+        } else if (this.xhr.readyState == 4) {
+          alert(
+            "Error while requesting joke.\n\nStatus code: " +
+              this.xhr.status +
+              "\nServer response: " +
+              this.xhr.responseText
+          );
+        }
+        this.xhr.send();
       }
     }
   });
