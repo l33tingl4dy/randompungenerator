@@ -29,9 +29,6 @@ export default class PunGenerator extends Vue {
       // copyText: document.getElementById("selectedPun")?.innerHTML,
     },
     methods: {
-      randomPun: function() {
-        // TODO: Add puns
-      },
       copyPun: function() {
         if (this.el) {
           const inputCopy = document.createElement("input");
@@ -81,6 +78,7 @@ export default class PunGenerator extends Vue {
           } else {
             alert(randomJoke.setup);
             alert(randomJoke.delivery);
+            this.joke = randomJoke.setup + randomJoke.delivery;
           }
         } else if (this.xhr.readyState == 4) {
           alert(
