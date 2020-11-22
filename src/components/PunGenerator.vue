@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Random Pun Generator</h1>
-    <span class="pun" id="selectedPun" type="text">{{ joke }}</span>
+    <span class="pun" id="selectedPun" type="text">{{ pun }}</span>
 
     <button class="copy-button" v-on:click="copyPun">Copy</button>
     <br />
@@ -57,7 +57,7 @@ export default class PunGenerator extends Vue {
       ],
       params: ["blacklistFlags=nsfw,religious,racist", "idRange=0-100"],
       xhr: new XMLHttpRequest(),
-      joke: ""
+      message: ""
     },
     methods: {
       getJoke: function() {
@@ -74,11 +74,11 @@ export default class PunGenerator extends Vue {
           const randomJoke = JSON.parse(this.xhr.responseText);
           if (randomJoke.type == "single") {
             alert(randomJoke.joke);
-            this.joke = randomJoke.joke;
+            this.message = randomJoke.joke;
           } else {
             alert(randomJoke.setup);
             alert(randomJoke.delivery);
-            this.joke = randomJoke.setup + randomJoke.delivery;
+            this.message = randomJoke.setup + randomJoke.delivery;
           }
         } else if (this.xhr.readyState == 4) {
           alert(
@@ -89,7 +89,7 @@ export default class PunGenerator extends Vue {
           );
         }
         this.xhr.send();
-        return this.joke;
+        return this.message;
       }
     }
   });
