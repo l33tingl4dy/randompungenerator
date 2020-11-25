@@ -1,9 +1,9 @@
-<template>
+<template id="t">
   <div>
     <h1>Random Pun Generator</h1>
     <span class="pun" id="selectedPun" type="text">{{ pun }}</span>
-
-    <button class="copy-button" v-on:click="copyPun">Copy</button>
+    <!-- TODO: make this work-->
+    <button type="button" v-clipboard:copy="copiedPun">Copy Pun</button>
     <br />
     <button class="random-button" v-on:click="getJoke">Randomize</button>
   </div>
@@ -11,7 +11,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-
+import VueClipboard from "vue-clipboard2";
+Vue.use(VueClipboard);
 @Component
 export default class PunGenerator extends Vue {
   @Prop() private msg!: string;
@@ -22,27 +23,6 @@ export default class PunGenerator extends Vue {
     "Two windmills are standing in a wind farm. One asks, “What’s your favorite kind of music?” The other says, “I’m a big metal fan.”"
   ];
   public pun = this.puns[Math.floor(Math.random() * this.puns.length)];
-  copy = new Vue({
-    data: {
-      el: "#selectedPun",
-      message: ""
-      // copyText: document.getElementById("selectedPun")?.innerHTML,
-    },
-    methods: {
-      copyPun: function() {
-        if (this.el) {
-          const inputCopy = document.createElement("input");
-          inputCopy.value = this.el;
-          document.body.appendChild(inputCopy);
-          inputCopy.select();
-          inputCopy.setSelectionRange(0, 99999); // mobile
-          document.execCommand("copy");
-          document.body.removeChild(inputCopy);
-          console.log(inputCopy);
-        }
-      }
-    }
-  });
 
   // JokeAPI
   joke = new Vue({
@@ -94,6 +74,39 @@ export default class PunGenerator extends Vue {
     }
   });
 }
+
+new Vue({
+  template: "#t",
+  data: function() {
+    return {
+      copiedPun: "happy punning" //document.getElementById('selectedPun') as HTMLElement
+    };
+  }
+});
+// Vue.component("copy-button", {
+//   template: '<button class="copy-button" v-on="click:copyPun">Copy</button>',
+//   // data: {
+
+//   // },
+//   methods: {
+//     el: document.getElementById('selectedPun'), //'#selectedPun',
+//     // inputCopy: document.createElement("input"),
+//     copyPun: function () {
+//       if (this.el) {
+//         const inputCopy = document.createElement("input") as HTMLElement;
+//         inputCopy.value = this.el;
+//         document.body.appendChild(inputCopy);
+//         inputCopy.select();
+//         inputCopy.setSelectionRange(0, 99999); // mobile
+//         document.execCommand("copy");
+//         document.body.removeChild(inputCopy);
+//         this.$clipboard();
+//       }
+//     },
+//   },
+// });
+
+Vue.component("random-joke", {});
 </script>
 
 <style scoped>
