@@ -1,5 +1,5 @@
 <template id="t">
-  <div>
+  <div class="container">
     <h1>Random Pun Generator</h1>
     <span class="pun" id="selectedPun" type="text">{{ pun }}</span>
     <!-- TODO: make this work-->
@@ -13,6 +13,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import VueClipboard from "vue-clipboard2";
 Vue.use(VueClipboard);
+VueClipboard.config.autoSetContainer = true;
+
 @Component
 export default class PunGenerator extends Vue {
   @Prop() private msg!: string;
@@ -79,7 +81,7 @@ new Vue({
   template: "#t",
   data: function() {
     return {
-      copiedPun: "happy punning" //document.getElementById('selectedPun') as HTMLElement
+      copiedPun: `"happy punning" + this.$t.children.namedItem.toString()`
     };
   }
 });
