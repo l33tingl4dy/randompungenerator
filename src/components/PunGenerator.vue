@@ -3,7 +3,7 @@
     <h1>Random Pun Generator</h1>
     <span class="pun" id="selectedPun" type="text">{{ pun }}</span>
     <!-- TODO: make this work-->
-    <button type="button" v-clipboard:copy="copiedPun">Copy Pun</button>
+    <copy-button type="button" v-clipboard:copy="copiedPun"></copy-button>
     <br />
     <button class="random-button" v-on:click="getJoke">Randomize</button>
   </div>
@@ -79,10 +79,40 @@ export default class PunGenerator extends Vue {
 
 new Vue({
   template: "#t",
-  data: function() {
-    return {
-      copiedPun: `"happy punning" + this.$t.children.namedItem.toString()`
-    };
+  render(createElement) {
+    return createElement("copy-button", {
+      attrs: {
+        type: "button"
+      },
+      props: {
+        text: "Copy"
+      },
+      domProps: {
+        innerHTML: ""
+      },
+      on: {
+        click: this.doCopy //copy pun
+      }
+    });
+  },
+  computed: {
+    copiedPun: function(): string {
+      return "happy punning" + this.$t.children.namedItem.toString();
+    }
+  },
+  methods: {
+    doCopy: function() {
+      this.$copyText(this.copiedPun).then(
+        function(e) {
+          alert("Copied");
+          console.log(e);
+        },
+        function(e) {
+          alert("Can not copy");
+          console.log(e);
+        }
+      );
+    }
   }
 });
 // Vue.component("copy-button", {
