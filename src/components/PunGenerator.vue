@@ -3,13 +3,16 @@
     <h1>Random Pun Generator</h1>
     <span class="pun" id="selectedPun" type="text">{{ pun }}</span>
     <!-- TODO: make this work-->
-    <copy-button type="button" v-clipboard:copy="copiedPun"></copy-button>
+    <div id="this.copyDiv">
+      <button type="button" v-on:click="doCopy">copy</button>
+    </div>
     <br />
     <button class="random-button" v-on:click="getJoke">Randomize</button>
   </div>
 </template>
 
 <script lang="ts">
+//v-clipboard:copy="copiedPun"
 import { Component, Prop, Vue } from "vue-property-decorator";
 import VueClipboard from "vue-clipboard2";
 Vue.use(VueClipboard);
@@ -77,27 +80,25 @@ export default class PunGenerator extends Vue {
   });
 }
 
-new Vue({
+const copyDiv = new Vue({
+  el: "#copy",
   template: "#t",
-  render(createElement) {
-    return createElement("copy-button", {
-      attrs: {
-        type: "button"
-      },
-      props: {
-        text: "Copy"
-      },
-      domProps: {
-        innerHTML: ""
-      },
-      on: {
-        click: this.doCopy //copy pun
-      }
-    });
-  },
+  // render(createElement) {
+  //   return createElement("copy-button", {
+  //     attrs: {
+  //       type: "button",
+  //     },
+  //     props: {
+  //       text: "Copy",
+  //     },
+  //     domProps: {
+  //       innerHTML: "",
+  //     },
+  //   });
+  // },
   computed: {
     copiedPun: function(): string {
-      return "happy punning" + this.$t.children.namedItem.toString();
+      return "happy punning" + document.getElementById("selectedPun");
     }
   },
   methods: {
