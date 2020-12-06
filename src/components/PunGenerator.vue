@@ -3,7 +3,7 @@
     <h1>Random Pun Generator</h1>
     <span class="pun" id="selectedPun" type="text">{{ pun }}</span>
     <!-- TODO: make this work-->
-    <div id="this.copyDiv">
+    <div id="copyDiv">
       <button type="button" v-on:click="doCopy">copy</button>
     </div>
     <br />
@@ -20,7 +20,7 @@ VueClipboard.config.autoSetContainer = true;
 
 @Component
 export default class PunGenerator extends Vue {
-  @Prop() private msg!: string;
+  // @Prop() private msg!: string;
   public puns = [
     "I knew a woman who owned a taser. Man, was she stunning!",
     "I lost my job at the bank on my very first day. A woman asked me to check her balance, so I pushed her over",
@@ -42,7 +42,7 @@ export default class PunGenerator extends Vue {
       ],
       params: ["blacklistFlags=nsfw,religious,racist", "idRange=0-100"],
       xhr: new XMLHttpRequest(),
-      message: ""
+      message: this.pun
     },
     methods: {
       getJoke: function() {
@@ -78,44 +78,33 @@ export default class PunGenerator extends Vue {
       }
     }
   });
+
+  copyJoke = new Vue({
+    data: {
+      message: this.pun
+    },
+    computed: {
+      copiedPun: function(): string {
+        return "happy punning" + document.getElementById("selectedPun");
+      }
+    },
+    methods: {
+      doCopy: function() {
+        this.$copyText(this.message).then(
+          function(e) {
+            alert("Copied");
+            console.log(e);
+          },
+          function(e) {
+            alert("Can not copy");
+            console.log(e);
+          }
+        );
+      }
+    }
+  });
 }
 
-const copyDiv = new Vue({
-  el: "#copy",
-  template: "#t",
-  // render(createElement) {
-  //   return createElement("copy-button", {
-  //     attrs: {
-  //       type: "button",
-  //     },
-  //     props: {
-  //       text: "Copy",
-  //     },
-  //     domProps: {
-  //       innerHTML: "",
-  //     },
-  //   });
-  // },
-  computed: {
-    copiedPun: function(): string {
-      return "happy punning" + document.getElementById("selectedPun");
-    }
-  },
-  methods: {
-    doCopy: function() {
-      this.$copyText(this.copiedPun).then(
-        function(e) {
-          alert("Copied");
-          console.log(e);
-        },
-        function(e) {
-          alert("Can not copy");
-          console.log(e);
-        }
-      );
-    }
-  }
-});
 // Vue.component("copy-button", {
 //   template: '<button class="copy-button" v-on="click:copyPun">Copy</button>',
 //   // data: {
