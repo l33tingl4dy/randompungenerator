@@ -4,7 +4,7 @@
     <span class="pun" id="selectedPun" type="text">{{ pun }}</span>
     <!-- TODO: make this work-->
     <div id="copyDiv">
-      <button type="button" v-on:click="doCopy">copy</button>
+      <button type="button" onClick="doCopy">copy</button>
     </div>
     <br />
     <button class="random-button" v-on:click="getJoke">Randomize</button>
@@ -28,7 +28,7 @@ export default class PunGenerator extends Vue {
     "Two windmills are standing in a wind farm. One asks, “What’s your favorite kind of music?” The other says, “I’m a big metal fan.”"
   ];
   public pun = this.puns[Math.floor(Math.random() * this.puns.length)];
-
+  // TODO: move to new file
   // JokeAPI
   joke = new Vue({
     data: {
@@ -79,6 +79,7 @@ export default class PunGenerator extends Vue {
     }
   });
 
+  // TODO: move to new file
   copyJoke = new Vue({
     data: {
       message: this.pun
