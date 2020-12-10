@@ -13,7 +13,7 @@
 
 <script lang="ts">
 //v-clipboard:copy="copiedPun"
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import VueClipboard from "vue-clipboard2";
 Vue.use(VueClipboard);
 VueClipboard.config.autoSetContainer = true;
@@ -78,32 +78,6 @@ export default class PunGenerator extends Vue {
       }
     }
   });
-
-  // TODO: move to new file
-  copyJoke = new Vue({
-    data: {
-      message: this.pun
-    },
-    computed: {
-      copiedPun: function(): string {
-        return "happy punning" + document.getElementById("selectedPun");
-      }
-    },
-    methods: {
-      doCopy: function() {
-        this.$copyText(this.message).then(
-          function(e) {
-            alert("Copied");
-            console.log(e);
-          },
-          function(e) {
-            alert("Can not copy");
-            console.log(e);
-          }
-        );
-      }
-    }
-  });
 }
 
 // Vue.component("copy-button", {
@@ -128,8 +102,6 @@ export default class PunGenerator extends Vue {
 //     },
 //   },
 // });
-
-Vue.component("random-joke", {});
 </script>
 
 <style scoped>
